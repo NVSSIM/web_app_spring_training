@@ -8,13 +8,16 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Component
-public class ApplicationIdentifierFilter {
-    private final String instanceID = UUID.randomUUID().toString();
+public class ApplicationIdentifierFilter implements Filter{
+    private final String instanceID;
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException{
-        HttpServletResponse resp = (HttpServletResponse) response;
-        resp.setHeader("Instance-ID",instanceID);
+    public ApplicationIdentifierFilter(){
+        instanceID = UUID.randomUUID().toString();
     }
 
-
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException{
+        ((HttpServletResponse) response).setHeader("Instance-ID", instanceID);
+        chain.doFilter(request, response);
+    }
 }
