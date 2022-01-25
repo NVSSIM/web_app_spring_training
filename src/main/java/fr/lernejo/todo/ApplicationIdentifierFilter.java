@@ -9,13 +9,12 @@ import java.util.UUID;
 
 @Component
 public class ApplicationIdentifierFilter {
-    private final String uuid;
+    private final String instanceID = UUID.randomUUID().toString();
 
-    public ApplicationIdentifierFilter(){uuid = UUID.randomUUID().toString();}
-
-    
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException{
-        ((HttpServletResponse) servletResponse).setHeader("Instance-Id",this.uuid);
-        filterChain.doFilter(servletRequest,servletResponse);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException{
+        HttpServletResponse resp = (HttpServletResponse) response;
+        resp.setHeader("Instance-ID",instanceID);
     }
+
+
 }
